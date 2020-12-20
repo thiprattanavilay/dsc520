@@ -1,0 +1,122 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2577
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww50700\viewh25180\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 > ## Load the ggplot2 package\
+> library(ggplot2)\
+> ## Load pastecs, psych, moments\
+> library(pastecs)\
+> library(psych)\
+> library(moments)\
+> ## Set Theme\
+> theme_set(theme_minimal())\
+> ## Set the working directory to the root of your DSC 520 directory\
+> getwd()\
+[1] "/Users/trattanavilay/Documents/BU-Data_SC_Master/DSC520-Statistics-for-Data-Science/dsc520"\
+> setwd("/Users/trattanavilay/Documents/BU-Data_SC_Master/DSC520-Statistics-for-Data-Science/dsc520")\
+> ## Load the `data/r4ds/heights.csv` to\
+> HSDdata <- read.csv("data/acs-14-1yr-s0201.csv", header = TRUE, sep = ",")\
+> #2. Please provide the output from the following functions: str(); nrow(); ncol()\
+> str(HSDdata)\
+'data.frame':	136 obs. of  8 variables:\
+ $ Id                    : chr  "0500000US01073" "0500000US04013" "0500000US04019" "0500000US06001" ...\
+ $ Id2                   : int  1073 4013 4019 6001 6013 6019 6029 6037 6059 6065 ...\
+ $ Geography             : chr  "Jefferson County, Alabama" "Maricopa County, Arizona" "Pima County, Arizona" "Alameda County, California" ...\
+ $ PopGroupID            : int  1 1 1 1 1 1 1 1 1 1 ...\
+ $ POPGROUP.display.label: chr  "Total population" "Total population" "Total population" "Total population" ...\
+ $ RacesReported         : int  660793 4087191 1004516 1610921 1111339 965974 874589 10116705 3145515 2329271 ...\
+ $ HSDegree              : num  89.1 86.8 88 86.9 88.8 73.6 74.5 77.5 84.6 80.6 ...\
+ $ BachDegree            : num  30.5 30.2 30.8 42.8 39.7 19.7 15.4 30.3 38 20.7 ...\
+> nrow(HSDdata)\
+[1] 136\
+> ncol(HSDdata)\
+[1] 8\
+> histo <- ggplot(HSDdata, aes(x = HSDegree)) + \
++   geom_histogram(aes(y = ..density..),binwidth = 2) + \
++   ggtitle("High School Degrees") + xlab("Degrees") + \
++   ylab("Number of Degrees")\
+> histo\
+> avg <- mean(HSDdata$HSDegree)\
+> med <- median(HSDdata$HSDegree)\
+> avg\
+[1] 87.63235\
+> med\
+[1] 88.7\
+> histo <- histo + stat_function(fun = dnorm, color = "red", args=list(mean=mean(HSDdata$HSDegree, na.rm = TRUE), sd=sd(HSDdata$HSDegree, na.rm = TRUE)))\
+> histo\
+> #5. Create a Probability Plot of the HSDegree variable.\
+> probplt <-qqnorm(HSDdata$HSDegree)\
+> probline <- qqline(HSDdata$HSDegree)\
+> probline\
+NULL\
+> probplt\
+$x\
+  [1]  0.101545240 -0.509653668 -0.251444343 -0.427359300  0.009215676 -2.088367400 -1.947535331 -1.745589242 -0.860150871 -1.285752616 -0.488776411 -1.476887179 -0.552096335\
+ [14] -0.194750551 -1.666628816 -0.175999777 -0.367514478 -0.308958703 -1.534120544 -1.002346088  0.943181185 -0.709617803  1.285752616  1.947535331  0.289682921  0.175999777\
+ [27]  0.213570055  0.387306368  0.447641753  0.860150871 -0.101545240  0.064553622 -0.387306368 -0.573691664 -1.244718362 -0.270514185 -0.289682921  0.407251161 -0.833767940\
+ [40]  0.046094043  0.488776411 -0.083035227  0.757868997 -0.232465513  0.914804794 -0.686104745  1.098333650 -1.098333650  0.509653668  0.640175016 -0.733529907  2.680421940\
+ [53]  0.027650158 -0.064553622  0.972338145  0.573691664  0.686104745 -0.662965045 -0.914804794 -1.168396022  0.120090113  1.132669808  2.088367400  1.065245815 -0.943181185\
+ [66]  0.427359300  0.138676382  0.194750551  1.476887179 -0.807952986  1.375044506  0.328349979  0.347865526  1.424119907 -0.138676382 -0.887146559  0.782665564 -0.120090113\
+ [79] -0.640175016 -1.033284907  0.157310685  1.329074084  0.887146559 -0.972338145 -0.595557930 -0.213570055 -2.289353466  0.617712750 -1.375044506  0.530755479  0.662965045\
+ [92] -0.468110064 -1.329074084  0.308958703 -0.347865526  0.083035227  0.232465513  1.244718362 -0.157310685  0.367514478  0.595557930  0.270514185  0.709617803 -0.447641753\
+[105] -0.046094043  0.733529907  0.468110064  1.745589242  1.837226463  1.168396022  0.807952986 -0.782665564  1.534120544 -1.132669808 -1.205679282 -0.530755479 -0.328349979\
+[118] -1.065245815  1.596872559 -1.596872559  1.002346088 -1.837226463 -0.027650158 -1.424119907 -2.680421940 -0.617712750 -0.757868997 -0.009215676  0.251444343  1.666628816\
+[131]  0.833767940  1.205679282  0.552096335  1.033284907  2.289353466 -0.407251161\
+\
+$y\
+  [1] 89.1 86.8 88.0 86.9 88.8 73.6 74.5 77.5 84.6 80.6 86.8 78.6 86.6 88.1 77.6 88.1 87.4 87.6 78.4 83.6 91.9 85.5 92.8 94.1 89.8 89.3 89.5 90.1 90.2 91.6 88.4 89.0 87.3 86.3\
+ [35] 80.9 87.9 87.7 90.1 84.9 88.9 90.3 88.4 91.3 88.0 91.8 85.5 92.3 82.9 90.3 90.7 85.0 95.5 88.8 88.5 91.9 90.4 90.9 85.5 84.4 82.5 89.1 92.3 94.1 92.2 83.9 90.1 89.1 89.3\
+ [69] 93.6 84.9 93.2 89.9 90.0 93.2 88.2 84.5 91.5 88.3 85.5 83.4 89.1 93.1 91.7 83.8 86.2 88.0 70.5 90.6 80.0 90.3 90.7 86.8 80.4 89.8 87.4 89.0 89.5 92.4 88.1 90.0 90.5 89.7\
+[103] 91.1 86.8 88.6 91.1 90.2 93.9 93.9 92.3 91.5 84.9 93.7 82.6 82.0 86.7 87.4 83.0 93.7 77.6 91.9 75.8 88.6 79.8 62.2 85.9 84.9 88.6 89.5 93.7 91.5 92.3 90.3 92.0 94.9 86.9\
+\
+> #7. Now that you have looked at this data visually for normality, you will now quantify normality with numbers using the stat.desc() function. Include a screen capture of the results produced.\
+> # See attached word doc for screen capture and results\
+> stat.desc(HSDdata)\
+         Id          Id2 Geography PopGroupID POPGROUP.display.label RacesReported     HSDegree   BachDegree\
+nbr.val  NA 1.360000e+02        NA        136                     NA  1.360000e+02 1.360000e+02  136.0000000\
+nbr.null NA 0.000000e+00        NA          0                     NA  0.000000e+00 0.000000e+00    0.0000000\
+nbr.na   NA 0.000000e+00        NA          0                     NA  0.000000e+00 0.000000e+00    0.0000000\
+min      NA 1.073000e+03        NA          1                     NA  5.002920e+05 6.220000e+01   15.4000000\
+max      NA 5.507900e+04        NA          1                     NA  1.011670e+07 9.550000e+01   60.3000000\
+range    NA 5.400600e+04        NA          0                     NA  9.616413e+06 3.330000e+01   44.9000000\
+sum      NA 3.649306e+06        NA        136                     NA  1.556385e+08 1.191800e+04 4822.7000000\
+median   NA 2.611200e+04        NA          1                     NA  8.327075e+05 8.870000e+01   34.1000000\
+mean     NA 2.683313e+04        NA          1                     NA  1.144401e+06 8.763235e+01   35.4610294\
+SE.mean  NA 1.323036e+03        NA          0                     NA  9.351028e+04 4.388598e-01    0.8154527\
+CI.mean  NA 2.616557e+03        NA          0                     NA  1.849346e+05 8.679296e-01    1.6127146\
+var      NA 2.380576e+08        NA          0                     NA  1.189207e+12 2.619332e+01   90.4349886\
+std.dev  NA 1.542911e+04        NA          0                     NA  1.090508e+06 5.117941e+00    9.5097313\
+coef.var NA 5.750024e-01        NA          0                     NA  9.529072e-01 5.840241e-02    0.2681741\
+> stat.desc(HSDdata$HSDegree)\
+     nbr.val     nbr.null       nbr.na          min          max        range          sum       median         mean      SE.mean CI.mean.0.95          var      std.dev \
+1.360000e+02 0.000000e+00 0.000000e+00 6.220000e+01 9.550000e+01 3.330000e+01 1.191800e+04 8.870000e+01 8.763235e+01 4.388598e-01 8.679296e-01 2.619332e+01 5.117941e+00 \
+    coef.var \
+5.840241e-02 \
+> quan_norm <- stat.desc(HSDdata)\
+> quan_norm\
+         Id          Id2 Geography PopGroupID POPGROUP.display.label RacesReported     HSDegree   BachDegree\
+nbr.val  NA 1.360000e+02        NA        136                     NA  1.360000e+02 1.360000e+02  136.0000000\
+nbr.null NA 0.000000e+00        NA          0                     NA  0.000000e+00 0.000000e+00    0.0000000\
+nbr.na   NA 0.000000e+00        NA          0                     NA  0.000000e+00 0.000000e+00    0.0000000\
+min      NA 1.073000e+03        NA          1                     NA  5.002920e+05 6.220000e+01   15.4000000\
+max      NA 5.507900e+04        NA          1                     NA  1.011670e+07 9.550000e+01   60.3000000\
+range    NA 5.400600e+04        NA          0                     NA  9.616413e+06 3.330000e+01   44.9000000\
+sum      NA 3.649306e+06        NA        136                     NA  1.556385e+08 1.191800e+04 4822.7000000\
+median   NA 2.611200e+04        NA          1                     NA  8.327075e+05 8.870000e+01   34.1000000\
+mean     NA 2.683313e+04        NA          1                     NA  1.144401e+06 8.763235e+01   35.4610294\
+SE.mean  NA 1.323036e+03        NA          0                     NA  9.351028e+04 4.388598e-01    0.8154527\
+CI.mean  NA 2.616557e+03        NA          0                     NA  1.849346e+05 8.679296e-01    1.6127146\
+var      NA 2.380576e+08        NA          0                     NA  1.189207e+12 2.619332e+01   90.4349886\
+std.dev  NA 1.542911e+04        NA          0                     NA  1.090508e+06 5.117941e+00    9.5097313\
+coef.var NA 5.750024e-01        NA          0                     NA  9.529072e-01 5.840241e-02    0.2681741\
+> \
+> #8. In several sentences provide an explanation of the result produced for skew, kurtosis, and z-scores. In addition, explain how a change in the sample size may change your explanation?\
+> #8. In several sentences provide an explanation of the result produced for skew, kurtosis, and z-scores. In addition, explain how a change in the sample size may change your explanation?\
+> #Answer:\
+> #8. In several sentences provide an explanation of the result produced for skew, kurtosis, and z-scores. In addition, explain how a change in the sample size may change your explanation?\
+> #Answer:\
+> #8 - The average percent of the population to have completed their HS Degree is 88%. Out data is actually skewed to the left of the mean based on the calculated normality. The kurtosis is telling us that this isn't a normal distribution becuase the numbers are farther from 0, which would represent our normal distrubtion. \
+> }
